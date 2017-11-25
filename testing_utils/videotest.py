@@ -96,13 +96,22 @@ class VideoTest(object):
         curr_fps = 0
         fps = "FPS: ??"
         prev_time = timer()
-            
+        kaisuu=0
+        # Define the codec and create VideoWriter object
+        fourcc = cv2.VideoWriter_fourcc(*'MJPG')
+        out = cv2.VideoWriter('output.avi',fourcc, 20.0, (400,300))
+
+
+    
         while True:
             retval, orig_image = vid.read()
             if not retval:
                 print("Done!")
                 return
-                
+            kaisuu=kaisuu+1
+            if kaisuu % 1 !=0 :
+               continue
+             
             im_size = (self.input_shape[0], self.input_shape[1])    
             resized = cv2.resize(orig_image, im_size)
             rgb = cv2.cvtColor(resized, cv2.COLOR_BGR2RGB)
@@ -111,7 +120,8 @@ class VideoTest(object):
             # The resized version is used, to visualize what kind of resolution
             # the network has to work with.
             to_draw = cv2.resize(resized, (int(self.input_shape[0]*vidar), self.input_shape[1]))
-            
+            #追加 画像サイズ表示
+            print(to_draw.shape)
             # Use model to predict 
             inputs = [image.img_to_array(rgb)]
             tmp_inp = np.array(inputs)
@@ -177,7 +187,14 @@ class VideoTest(object):
             cv2.rectangle(to_draw, (0,0), (50, 17), (255,255,255), -1)
             cv2.putText(to_draw, fps, (3,10), cv2.FONT_HERSHEY_SIMPLEX, 0.35, (0,0,0), 1)
             
+            # write the flipped frame
+            out.write(to_draw)
+
             cv2.imshow("SSD result", to_draw)
-            cv2.waitKey(10)
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+               out.release() 
+               break
+
+
             
         
