@@ -97,6 +97,7 @@ class VideoTest(object):
         fps = "FPS: ??"
         prev_time = timer()
         kaisuu=0
+        oto=0
         # Define the codec and create VideoWriter object
         fourcc = cv2.VideoWriter_fourcc(*'MJPG')
         out = cv2.VideoWriter('output.avi',fourcc, 20.0, (400,300))
@@ -137,6 +138,7 @@ class VideoTest(object):
             if len(results) > 0 and len(results[0]) > 0:
                 # Interpret output, only one frame is used 
                 det_label = results[0][:, 0]
+                print("det:",det_label)
                 det_conf = results[0][:, 1]
                 det_xmin = results[0][:, 2]
                 det_ymin = results[0][:, 3]
@@ -147,6 +149,17 @@ class VideoTest(object):
 
                 top_conf = det_conf[top_indices]
                 top_label_indices = det_label[top_indices].tolist()
+                print("person:",15 in top_label_indices )
+                print("top:",top_label_indices)
+                if (15 in top_label_indices):
+                    oto=oto+1
+                    if oto==3 :
+                       oto=0
+                       print ('\007')
+                else:
+                    print ('wrong')
+                    oto=0
+
                 top_xmin = det_xmin[top_indices]
                 top_ymin = det_ymin[top_indices]
                 top_xmax = det_xmax[top_indices]
