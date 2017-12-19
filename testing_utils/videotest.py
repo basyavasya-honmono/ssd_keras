@@ -1,4 +1,4 @@
-""" A class for testing a SSD model on a video file or webcam """
+﻿""" A class for testing a SSD model on a video file or webcam """
 
 import cv2
 import keras
@@ -103,13 +103,10 @@ class VideoTest(object):
         bicycle=0
         bus=0
         cat=0
-        cow=0
-        horse=0
         motorbike=0
-        sheep=0
         # Define the codec and create VideoWriter object
-        fourcc = cv2.VideoWriter_fourcc(*'MJPG')
-        out = cv2.VideoWriter('output.avi',fourcc, 20.0, (400,300))
+        #fourcc = cv2.VideoWriter_fourcc(*'MJPG')
+        #out = cv2.VideoWriter('output.avi',fourcc, 20.0, (400,300))
 
 
     
@@ -119,7 +116,7 @@ class VideoTest(object):
                 print("Done!")
                 return
             kaisuu=kaisuu+1
-            if kaisuu % 1 !=0 :
+            if kaisuu % 70 !=0 :
                continue
              
             im_size = (self.input_shape[0], self.input_shape[1])    
@@ -164,10 +161,7 @@ class VideoTest(object):
                 print("bicycle:",2 in top_label_indices )
                 print("bus:",6 in top_label_indices )
                 print("cat:",8 in top_label_indices )
-                print("cow:",10 in top_label_indices )
-                print("horse:",13 in top_label_indices )
                 print("motorbike:",14 in top_label_indices )
-                print("sheep:",17 in top_label_indices )
                 print("top:",top_label_indices)
                 
                 #person beep
@@ -218,22 +212,6 @@ class VideoTest(object):
                        print ('\007')
                 else:
                     cat=0
-                #cow beep
-                if (10 in top_label_indices):
-                    cow=cow+1
-                    if cow==3 :
-                       cow=0
-                       print ('\007')
-                else:
-                    cow=0
-                #horse beep
-                if (13 in top_label_indices):
-                    horse=horse+1
-                    if horse==3 :
-                       horse=0
-                       print ('\007')
-                else:
-                    horse=0
                 #motorbike beep
                 if (14 in top_label_indices):
                     motorbike=motorbike+1
@@ -242,14 +220,6 @@ class VideoTest(object):
                        print ('\007')
                 else:
                     motorbike=0
-                #sheep beep
-                if (17 in top_label_indices):
-                    sheep=sheep+1
-                    if sheep==3 :
-                       sheep=0
-                       print ('\007')
-                else:
-                    sheep=0
 
                 top_xmin = det_xmin[top_indices]
                 top_ymin = det_ymin[top_indices]
@@ -292,7 +262,7 @@ class VideoTest(object):
             cv2.putText(to_draw, fps, (3,10), cv2.FONT_HERSHEY_SIMPLEX, 0.35, (0,0,0), 1)
             
             # write the flipped frame
-            out.write(to_draw)
+            #out.write(to_draw)
 
             cv2.imshow("SSD result", to_draw)
             if cv2.waitKey(1) & 0xFF == ord('q'):
