@@ -97,13 +97,10 @@ class VideoTest(object):
         fps = "FPS: ??"
         prev_time = timer()
         kaisuu=0
-        oto=0
-        dog=0
-        car=0
-        bicycle=0
-        bus=0
-        cat=0
-        motorbike=0
+        targets=[15,12,7,2,6,8,14]
+        names=["person","dog","car","bicycle","bus","cat","motorbike"]
+        counts=[0]*len(targets)
+        
         # Define the codec and create VideoWriter object
         #fourcc = cv2.VideoWriter_fourcc(*'MJPG')
         #out = cv2.VideoWriter('output.avi',fourcc, 20.0, (400,300))
@@ -155,71 +152,19 @@ class VideoTest(object):
 
                 top_conf = det_conf[top_indices]
                 top_label_indices = det_label[top_indices].tolist()
-                print("person:",15 in top_label_indices )
-                print("dog:",12 in top_label_indices )
-                print("car:",7 in top_label_indices )
-                print("bicycle:",2 in top_label_indices )
-                print("bus:",6 in top_label_indices )
-                print("cat:",8 in top_label_indices )
-                print("motorbike:",14 in top_label_indices )
                 print("top:",top_label_indices)
                 
-                #person beep
-                if (15 in top_label_indices):
-                    oto=oto+1
-                    if oto==3 :
-                       oto=0
-                       print ('\007')
-                else:
-                    oto=0
-                #dog beep
-                if (12 in top_label_indices):
-                    dog=dog+1
-                    if dog==3 :
-                       dog=0
-                       print ('\007')
-                else:
-                    dog=0
-                #car beep
-                if (7 in top_label_indices):
-                    car=car+1
-                    if car==3 :
-                       car=0
-                       print ('\007')
-                else:
-                    car=0
-                #bicycle beep
-                if (2 in top_label_indices):
-                    bicycle=bicycle+1
-                    if bicycle==3 :
-                       bicycle=0
-                       print ('\007')
-                else:
-                    bicycle=0
-                #bus beep
-                if (6 in top_label_indices):
-                    bus=bus+1
-                    if bus==3 :
-                       bus=0
-                       print ('\007')
-                else:
-                    bus=0
-                #cat beep
-                if (8 in top_label_indices):
-                    cat=cat+1
-                    if cat==3 :
-                       cat=0
-                       print ('\007')
-                else:
-                    cat=0
-                #motorbike beep
-                if (14 in top_label_indices):
-                    motorbike=motorbike+1
-                    if motorbike==3 :
-                       motorbike=0
-                       print ('\007')
-                else:
-                    motorbike=0
+                #beep
+                for i, target in enumerate(targets,0) :
+                    print(names[i],targets[i] in top_label_indices)
+                    if (target in top_label_indices):
+                        counts[i]=counts[i]+1
+                        if counts[i]==3 :
+                           counts[i]=0
+                           print ('\007')
+                    else:
+                        counts[i]=0
+                
 
                 top_xmin = det_xmin[top_indices]
                 top_ymin = det_ymin[top_indices]
