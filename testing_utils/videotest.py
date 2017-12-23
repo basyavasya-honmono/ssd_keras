@@ -155,16 +155,18 @@ class VideoTest(object):
                 print("top:",top_label_indices)
                 
                 #beep
+                found=False
                 for i, target in enumerate(targets,0) :
                     print(names[i],targets[i] in top_label_indices)
                     if (target in top_label_indices):
                         counts[i]=counts[i]+1
                         if counts[i]==3 :
                            counts[i]=0
-                           print ('\007')
+                           found=True
                     else:
                         counts[i]=0
-                
+                if found :
+                    print ('\007')
 
                 top_xmin = det_xmin[top_indices]
                 top_ymin = det_ymin[top_indices]
