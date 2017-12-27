@@ -98,6 +98,8 @@ class VideoTest(object):
         prev_time = timer()
         kaisuu=0
         all=0
+        bunsi=8
+        bunbo=10
         targets=[15,12,7,2,6,8,14]
         names=["person","dog","car","bicycle","bus","cat","motorbike"]
         counts=[0]*len(targets)
@@ -162,11 +164,11 @@ class VideoTest(object):
                     print(names[i],targets[i] in top_label_indices)
                     if (target in top_label_indices):
                         counts[i]=counts[i]+1
-                    if all==4 :
-                        if counts[i]/all >= 3/4 :
+                    if all==bunbo :
+                        if counts[i]/all >= bunsi/bunbo :
                             found=True
                         counts[i]=0
-                if all==4 :
+                if all==bunbo :
                     all=0
                 if found :
                     print ('\007')
