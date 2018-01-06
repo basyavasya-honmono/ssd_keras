@@ -97,15 +97,14 @@ class VideoTest(object):
         fps = "FPS: ??"
         prev_time = timer()
         kaisuu=0
-        all=0
+        loop_count=0
         bunsi=8
         bunbo=10
         #targets=[15,12,7,2,6,8,14]
         targets=[15,12,2,8,14]
         #names=["person","dog","car","bicycle","bus","cat","motorbike"]
         names=["person","dog","bicycle","cat","motorbike"]
-        counts=[0]*len(targets)
-        
+        counts = [[0 for i in range(bunbo)] for j in range(len(targets))]
         # Define the codec and create VideoWriter object
         #fourcc = cv2.VideoWriter_fourcc(*'MJPG')
         #out = cv2.VideoWriter('output.avi',fourcc, 20.0, (400,300))
@@ -160,19 +159,18 @@ class VideoTest(object):
                 print("top:",top_label_indices)
                 
                 #beep
-                all=all+1
+                loop_count+=1
                 found=False
                 for i, target in enumerate(targets,0) :
                     print(names[i],targets[i] in top_label_indices)
                     if (target in top_label_indices):
-                        counts[i]=counts[i]+1
-                    print(i,all,counts[i])
-                    if all==bunbo :
-                        if counts[i]/all >= bunsi/bunbo :
+                        counts[i][loop_count%bunbo]=1
+                    else:
+                        counts[i][loop_count%bunbo]=0
+                    print(i,counts[i],loop_count,sum(counts[i]))
+                    
+                    if sum(counts[i]) >= bunsi and loop_count>=bunbo:
                             found=True
-                        counts[i]=0
-                if all==bunbo :
-                    all=0
                 if found :
                     print ('\007')
                 top_xmin = det_xmin[top_indices]
