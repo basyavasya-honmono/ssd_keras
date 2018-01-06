@@ -21,7 +21,7 @@ vid_test = VideoTest(class_names, model, input_shape)
 
 # To test on webcam 0, remove the parameter (or change it to another number
 # to test on that webcam)
-#vid_test.run('video')
-vid_test.run(0)
+vid_test.run('C:/human_detection/1_10/4/DSC_7509.AVI')
+#vid_test.run(0)
 #vid_test.run(-1)
 

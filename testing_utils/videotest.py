@@ -100,8 +100,10 @@ class VideoTest(object):
         all=0
         bunsi=8
         bunbo=10
-        targets=[15,12,7,2,6,8,14]
-        names=["person","dog","car","bicycle","bus","cat","motorbike"]
+        #targets=[15,12,7,2,6,8,14]
+        targets=[15,12,2,8,14]
+        #names=["person","dog","car","bicycle","bus","cat","motorbike"]
+        names=["person","dog","bicycle","cat","motorbike"]
         counts=[0]*len(targets)
         
         # Define the codec and create VideoWriter object
@@ -164,6 +166,7 @@ class VideoTest(object):
                     print(names[i],targets[i] in top_label_indices)
                     if (target in top_label_indices):
                         counts[i]=counts[i]+1
+                    print(i,all,counts[i])
                     if all==bunbo :
                         if counts[i]/all >= bunsi/bunbo :
                             found=True
@@ -172,7 +175,6 @@ class VideoTest(object):
                     all=0
                 if found :
                     print ('\007')
-
                 top_xmin = det_xmin[top_indices]
                 top_ymin = det_ymin[top_indices]
                 top_xmax = det_xmax[top_indices]
